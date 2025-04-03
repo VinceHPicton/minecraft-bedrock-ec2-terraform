@@ -1,6 +1,6 @@
 
 resource "aws_instance" "minecraft" {
-  ami        = "ami-0f0e66c76d71b6ab2"
+  ami        = data.aws_ami.latest_mc_bedrock_ami.id
   instance_type   = "c7i.large"
   vpc_security_group_ids = [aws_security_group.instance.id]
 
@@ -9,13 +9,26 @@ resource "aws_instance" "minecraft" {
   associate_public_ip_address = true
 }
 
-resource "aws_eip" "server-ip" {
-  domain = "vpc"
+data "aws_ami" "latest_mc_bedrock_ami" {
+  most_recent = true
+  owners      = ["self"]
+
+  filter {
+    name   = "name"
+    values = ["minecraft-bedrock-*"] # Match AMI names created by Packer
+  }
+}
+
+data "aws_eip" "mc-server-test-ip" {
+  filter {
+    name   = "tag:Name"
+    values = ["MC-test-IP"]
+  }
 }
 
 resource "aws_eip_association" "eip_assoc" {
   instance_id   = aws_instance.minecraft.id
-  allocation_id = aws_eip.server-ip.id
+  allocation_id = data.aws_eip.mc-server-test-ip.id
 }
 
 resource "aws_security_group" "instance" {
