@@ -11,8 +11,19 @@ source "amazon-ebs" "ubuntu" {
   ami_name      = "${var.ami_prefix}-${local.timestamp}"
   instance_type = "c7i.large"
   region        = "eu-west-2"
-  source_ami    = "ami-0a94c8e4ca2674d5a"
+  # source_ami    = "ami-0a94c8e4ca2674d5a"
   ssh_username  = "ubuntu"
+
+  source_ami_filter {
+    filters = {
+      name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
+      root-device-type    = "ebs"
+      virtualization-type = "hvm"
+    }
+    most_recent = true
+    owners      = ["099720109477"]
+  }
+
 }
 
 build {
@@ -53,7 +64,7 @@ variable "ami_prefix" {
 }
 
 locals {
-  timestamp        = regex_replace(timestamp(), "[- TZ:]", "")
-  bedrock_zip_file = "bedrock-server-1.21.71.01.zip"
+  timestamp           = regex_replace(timestamp(), "[- TZ:]", "")
+  bedrock_zip_file    = "bedrock-server-1.21.71.01.zip"
   start_server_script = "start_server.sh"
 }
