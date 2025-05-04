@@ -9,9 +9,8 @@ packer {
 
 source "amazon-ebs" "ubuntu" {
   ami_name      = "${var.ami_prefix}-${local.timestamp}"
-  instance_type = "c7i.large"
+  instance_type = "t2.micro"
   region        = "eu-west-2"
-  # source_ami    = "ami-0a94c8e4ca2674d5a"
   ssh_username  = "ubuntu"
 
   source_ami_filter {
@@ -31,6 +30,18 @@ build {
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
+
+  provisioner "shell" {
+    inline = [
+      "sudo apt update",
+      "sudo apt install -y unzip curl",
+      "mkdir -p /home/ubuntu/aws",
+      "cd /home/ubuntu/aws",
+      "curl \"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip\" -o \"awscliv2.zip\"",
+      "unzip awscliv2.zip",
+      "sudo ./aws/install",
+    ]
+  }
 
   provisioner "file" {
     source      = local.start_server_script

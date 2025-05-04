@@ -3,7 +3,7 @@
 data "aws_eip" "mc-server-test-ip" {
   filter {
     name   = "tag:Name"
-    values = ["MC-test-IP"]
+    values = ["MC-server-IP"]
   }
 }
 
