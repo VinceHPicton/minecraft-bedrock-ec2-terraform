@@ -1,5 +1,7 @@
 #!/bin/bash
 aws s3 cp s3://mc-bedrock-backup/worlds /home/ubuntu/worlds --recursive
+aws s3 cp s3://mc-bedrock-backup/server.properties /home/ubuntu/
+aws s3 cp s3://mc-bedrock-backup/permissions.json /home/ubuntu/
 export LD_LIBRARY_PATH=.
 /home/ubuntu/start_server.sh
 EOF

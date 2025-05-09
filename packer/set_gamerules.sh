@@ -1,7 +1,4 @@
 #!/bin/bash
-cd /home/ubuntu
-send_to_screen bedrock "gamerule doInsomnia false"
-send_to_screen bedrock "gamerule mobGriefing false"
 
 send_to_screen() {
   local session="$1"
@@ -14,3 +11,7 @@ send_to_screen() {
 
   screen -S "$session" -X stuff "$command$(echo -ne '\015')"
 }
+
+cd /home/ubuntu
+send_to_screen bedrock "gamerule doInsomnia false"
+send_to_screen bedrock "gamerule mobGriefing false"
