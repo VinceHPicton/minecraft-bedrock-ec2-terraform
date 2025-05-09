@@ -44,29 +44,15 @@ build {
   }
 
   provisioner "file" {
-    source      = local.start_server_script
-    destination = "/tmp/"
-  }
-
-  provisioner "file" {
-    source      = local.world_backup_script
-    destination = "/tmp/"
-  }
-
-  provisioner "file" {
-    source      = local.set_gamerules_script
+    source      = "scripts"
     destination = "/tmp/"
   }
 
   provisioner "shell" {
     inline = [
-      "mv /tmp/${local.start_server_script} /home/ubuntu/",
-      "mv /tmp/${local.world_backup_script} /home/ubuntu/",
-      "mv /tmp/${local.set_gamerules_script} /home/ubuntu/",
-      "chmod +x /home/ubuntu/${local.start_server_script}",
-      "chmod +x /home/ubuntu/${local.world_backup_script}",
-      "chmod +x /home/ubuntu/${local.set_gamerules_script}"
-    ]
+      "cp -r /tmp/scripts/* /home/ubuntu/",
+      "chmod +x /home/ubuntu/*"
+      ]
   }
 
   provisioner "file" {
