@@ -1,5 +1,6 @@
 resource "aws_security_group" "instance" {
   name = "terraform-minecraft-instance"
+  vpc_id = aws_vpc.minecraft_vpc.id
 
   ingress {
     from_port   = var.IPv4_port
