@@ -45,13 +45,27 @@ build {
 
   provisioner "file" {
     source      = local.start_server_script
-    destination = "/tmp/${local.start_server_script}"
+    destination = "/tmp/"
+  }
+
+  provisioner "file" {
+    source      = local.world_backup_script
+    destination = "/tmp/"
+  }
+
+  provisioner "file" {
+    source      = local.set_gamerules_script
+    destination = "/tmp/"
   }
 
   provisioner "shell" {
     inline = [
-      "mv /tmp/${local.start_server_script} /home/ubuntu",
-      "sudo chmod +x /home/ubuntu/${local.start_server_script}",
+      "mv /tmp/${local.start_server_script} /home/ubuntu/",
+      "mv /tmp/${local.world_backup_script} /home/ubuntu/",
+      "mv /tmp/${local.set_gamerules_script} /home/ubuntu/",
+      "chmod +x /home/ubuntu/${local.start_server_script}",
+      "chmod +x /home/ubuntu/${local.world_backup_script}",
+      "chmod +x /home/ubuntu/${local.set_gamerules_script}"
     ]
   }
 
@@ -78,4 +92,7 @@ locals {
   timestamp           = regex_replace(timestamp(), "[- TZ:]", "")
   bedrock_zip_file    = "bedrock-server-1.21.71.01.zip"
   start_server_script = "start_server.sh"
+  world_backup_script = "world_backup.sh"
+  set_gamerules_script = "set_gamerules.sh"
+  minecraft_files_location = "/home/ubuntu"
 }
