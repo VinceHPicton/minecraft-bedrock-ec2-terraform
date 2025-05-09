@@ -10,6 +10,13 @@ resource "aws_security_group" "instance" {
   }
 
     ingress {
+    from_port   = var.IPv4_port
+    to_port     = var.IPv6_port
+    protocol    = "udp"
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+    ingress {
     from_port   = var.ssh_port
     to_port     = var.ssh_port
     protocol    = "tcp"
