@@ -52,7 +52,7 @@ build {
     inline = [
       "cp -r /tmp/scripts/* /home/ubuntu/",
       "chmod +x /home/ubuntu/*"
-      ]
+    ]
   }
 
   provisioner "file" {
@@ -67,6 +67,13 @@ build {
       "rm /tmp/${local.bedrock_zip_file}",
     ]
   }
+
+  provisioner "shell" {
+    inline = [
+      "echo '0 5,13,17 * * * /home/ubuntu/world_backup.sh' >> /tmp/cronjob",
+      "crontab /tmp/cronjob",
+    ]
+  }
 }
 
 variable "ami_prefix" {
@@ -75,10 +82,10 @@ variable "ami_prefix" {
 }
 
 locals {
-  timestamp           = regex_replace(timestamp(), "[- TZ:]", "")
-  bedrock_zip_file    = "bedrock-server-1.21.71.01.zip"
-  start_server_script = "start_server.sh"
-  world_backup_script = "world_backup.sh"
-  set_gamerules_script = "set_gamerules.sh"
+  timestamp                = regex_replace(timestamp(), "[- TZ:]", "")
+  bedrock_zip_file         = "bedrock-server-1.21.71.01.zip"
+  start_server_script      = "start_server.sh"
+  world_backup_script      = "world_backup.sh"
+  set_gamerules_script     = "set_gamerules.sh"
   minecraft_files_location = "/home/ubuntu"
 }
