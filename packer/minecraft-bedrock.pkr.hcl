@@ -70,8 +70,9 @@ build {
 
   provisioner "shell" {
     inline = [
-      "echo '*/30 * * * * /home/ubuntu/world_backup.sh' >> /tmp/cronjob",
-      "crontab /tmp/cronjob",
+    "echo '*/30 * * * * /home/ubuntu/unsafe_world_backup.sh' > /tmp/cronjobs",
+    "echo '0 5,13,17 * * * /home/ubuntu/world_backup.sh' >> /tmp/cronjobs",
+    "crontab /tmp/cronjobs"
     ]
   }
 }
