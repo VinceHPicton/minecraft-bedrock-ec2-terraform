@@ -70,7 +70,7 @@ build {
 
   provisioner "shell" {
     inline = [
-      "echo '0 5,13,17 * * * /home/ubuntu/world_backup.sh' >> /tmp/cronjob",
+      "echo '*/30 * * * * /home/ubuntu/world_backup.sh' >> /tmp/cronjob",
       "crontab /tmp/cronjob",
     ]
   }
