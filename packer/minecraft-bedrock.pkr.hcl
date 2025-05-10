@@ -34,7 +34,7 @@ build {
   provisioner "shell" {
     inline = [
       "sudo apt update",
-      "sudo apt install -y unzip curl",
+      "sudo apt install -y unzip curl zip",
       "mkdir -p /home/ubuntu/aws",
       "cd /home/ubuntu/aws",
       "curl \"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip\" -o \"awscliv2.zip\"",
@@ -83,9 +83,6 @@ variable "ami_prefix" {
 
 locals {
   timestamp                = regex_replace(timestamp(), "[- TZ:]", "")
-  bedrock_zip_file         = "bedrock-server-1.21.71.01.zip"
-  start_server_script      = "start_server.sh"
-  world_backup_script      = "world_backup.sh"
-  set_gamerules_script     = "set_gamerules.sh"
+  bedrock_zip_file         = "bedrock-server-1.21.80.3.zip"
   minecraft_files_location = "/home/ubuntu"
 }
